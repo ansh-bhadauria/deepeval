@@ -38,6 +38,7 @@ valid_gpt_models = [
     "gpt-3.5-turbo",
     "gpt-3.5-turbo-16k",
     "gpt-3.5-turbo-0125",
+    "ft:gpt-4o-mini-2024-07-18:g-p-dev::9rMY2cB1"
 ]
 
 model_pricing = {
@@ -53,6 +54,7 @@ model_pricing = {
     "gpt-3.5-turbo": {"input": 1.50 / 1e6, "output": 2.00 / 1e6},
     "gpt-3.5-turbo-16k": {"input": 3.00 / 1e6, "output": 4.00 / 1e6},
     "gpt-3.5-turbo-0125": {"input": 0.50 / 1e6, "output": 1.50 / 1e6},
+    "ft:gpt-4o-mini-2024-07-18:g-p-dev::9rMY2cB1": {"input": 0.150 / 1e6, "output": 0.600 / 1e6}
 }
 
 default_gpt_model = "gpt-4o"
