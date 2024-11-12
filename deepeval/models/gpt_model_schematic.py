@@ -1,6 +1,6 @@
 from tenacity import retry, retry_if_exception_type, wait_exponential_jitter
 from openai import OpenAI, AsyncOpenAI
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 from pydantic import BaseModel
 import logging
 import openai
@@ -29,6 +29,7 @@ valid_gpt_models = [
     "gpt-3.5-turbo",
     "gpt-3.5-turbo-16k",
     "gpt-3.5-turbo-0125",
+    "ft:gpt-4o-mini-2024-07-18:g-p-dev::9rMY2cB1"
 ]
 
 default_gpt_model = "gpt-4o"
@@ -68,7 +69,7 @@ class SchematicGPTModel(DeepEvalBaseLLM):
         after=log_retry_error,
     )
     def generate(
-        self, prompt: str, schema: Optional[BaseModel] = None
+        self, messages: List[Dict[str, str]], schema: Optional[BaseModel] = None
     ) -> Tuple[str, float]:
         import instructor
 
@@ -76,7 +77,7 @@ class SchematicGPTModel(DeepEvalBaseLLM):
         response = client.chat.completions.create(
             model=self.model_name,
             response_model=schema,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
         )
         return response
 
@@ -86,7 +87,7 @@ class SchematicGPTModel(DeepEvalBaseLLM):
         after=log_retry_error,
     )
     async def a_generate(
-        self, prompt: str, schema: Optional[BaseModel] = None
+        self, messages: List[Dict[str, str]], schema: Optional[BaseModel] = None
     ) -> Tuple[str, float]:
         import instructor
 
@@ -96,7 +97,7 @@ class SchematicGPTModel(DeepEvalBaseLLM):
         response = await client.chat.completions.create(
             model=self.model_name,
             response_model=schema,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
         )
         return response
 
